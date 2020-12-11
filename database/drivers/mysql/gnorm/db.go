@@ -4,6 +4,7 @@ package gnorm // import "gnorm.org/gnorm/database/drivers/mysql/gnorm"
 
 import (
 	"database/sql"
+	"fmt"
 	"strings"
 )
 
@@ -79,15 +80,15 @@ func AndClause(wheres ...WhereClause) WhereClause {
 type andClause []WhereClause
 
 func (a andClause) String() string {
-	wheres := make([]string, len(a))
-	for x := 0; x < len(a); x++ {
-		wheres[x] = a[x].String()
+	var wheres []string
+	for _, clause := range a {
+		wheres = append(wheres, clause.String())
 	}
-	return strings.Join(wheres, " AND ")
+	return fmt.Sprintf("(%s)", strings.Join(wheres, " AND "))
 }
 
 func (a andClause) Values() []interface{} {
-	vals := make([]interface{}, 0, len(a))
+	var vals []interface{}
 	for x := 0; x < len(a); x++ {
 		vals = append(vals, a[x].Values()...)
 	}
@@ -103,15 +104,15 @@ func OrClause(wheres ...WhereClause) WhereClause {
 type orClause []WhereClause
 
 func (o orClause) String() string {
-	wheres := make([]string, len(o))
-	for x := 0; x < len(wheres); x++ {
-		wheres[x] = o[x].String()
+	var wheres []string
+	for _, clause := range o {
+		wheres = append(wheres, clause.String())
 	}
-	return strings.Join(wheres, " OR ")
+	return fmt.Sprintf("(%s)", strings.Join(wheres, " OR "))
 }
 
 func (o orClause) Values() []interface{} {
-	vals := make([]interface{}, len(o))
+	var vals []interface{}
 	for x := 0; x < len(o); x++ {
 		vals = append(vals, o[x].Values()...)
 	}
