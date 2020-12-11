@@ -30,7 +30,7 @@ type Row struct {
 	Extra                  string         // EXTRA
 	Privileges             string         // PRIVILEGES
 	ColumnComment          string         // COLUMN_COMMENT
-	GenerationExpression   string         // GENERATION_EXPRESSION
+	GenerationExpression   sql.NullString // GENERATION_EXPRESSION
 }
 
 // Field values for every column in Columns.
@@ -55,7 +55,7 @@ var (
 	ExtraCol                  gnorm.StringField        = "EXTRA"
 	PrivilegesCol             gnorm.StringField        = "PRIVILEGES"
 	ColumnCommentCol          gnorm.StringField        = "COLUMN_COMMENT"
-	GenerationExpressionCol   gnorm.StringField        = "GENERATION_EXPRESSION"
+	GenerationExpressionCol   gnorm.SqlNullStringField = "GENERATION_EXPRESSION"
 )
 
 // Query retrieves rows from 'COLUMNS' as a slice of Row.
