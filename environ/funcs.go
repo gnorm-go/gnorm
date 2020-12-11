@@ -39,6 +39,7 @@ var FuncMap = map[string]interface{}{
 	"makeMap":      makeMap,
 	"makeSlice":    makeSlice,
 	"numbers":      numbers,
+	"steps":        steps,
 	"pascal":       kace.Pascal,
 	"plural":       inflection.Plural,
 	"repeat":       strings.Repeat,
@@ -137,6 +138,15 @@ func numbers(start, end int) data.Strings {
 	var s data.Strings
 	for x := start; x <= end; x++ {
 		s = append(s, strconv.Itoa(x))
+	}
+	return s
+}
+
+// steps returns a slice of strings of the numbers from start with length of len
+func steps(start, len int) data.Strings {
+	var s data.Strings
+	for x := 0; x < len; x++ {
+		s = append(s, strconv.Itoa(start+x))
 	}
 	return s
 }
