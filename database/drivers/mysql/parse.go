@@ -234,6 +234,12 @@ func toDBColumn(c *columns.Row, log *log.Logger) (*database.Column, *database.En
 		col.Length = int(c.CharacterMaximumLength.Int64)
 	}
 
+	// MySQL ColumnType exposes sign information for numeric types. We want to
+	// reflect that the type.
+	if strings.Contains(c.ColumnType, "unsigned") {
+		col.Type += " unsigned"
+	}
+
 	if col.Type != "enum" {
 		return col, nil, nil
 	}
