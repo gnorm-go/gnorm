@@ -401,7 +401,7 @@ func queryForeignKeys(log *log.Logger, db *sql.DB, schemas []string) ([]*databas
     	  ON lkc.table_schema = rc.constraint_schema
       		AND lkc.constraint_name = rc.constraint_name
   		LEFT JOIN information_schema.key_column_usage fkc
-    	  ON fkc.table_schema = rc.constraint_schema
+    	  ON fkc.table_schema = rc.unique_constraint_schema
       	    AND fkc.ordinal_position = lkc.position_in_unique_constraint
       		AND fkc.constraint_name = rc.unique_constraint_name
 	  WHERE rc.constraint_schema IN (%s)`
